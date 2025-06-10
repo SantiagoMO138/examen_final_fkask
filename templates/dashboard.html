@@ -1,0 +1,259 @@
+{% include 'layout/header_dashboard.html' %}
+
+<body class="bg-body-primary">
+    {% include 'layout/nav.html' %}
+    <div class="container-fluid bg-body-secondary">
+        <div class="card">
+            <!-- Flash messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            <div class="row mb-4">
+                <div class="col-12">
+                    {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show text-black text-sm" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">X</button>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+            {% endwith %}
+
+            <!-- Botón para administradores -->
+            {% if is_admin %}
+            <div class="row mb-4">
+                <div class="col-12 text-end">
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                        data-bs-target="#registerModal">
+                        <i class="fas fa-user-plus me-2"></i>Registrar Nuevo Usuario
+                    </button>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Stats Cards -->
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <div class="stats-card">
+                        <i class="fas fa-paw"></i>
+                        <div>
+                            <div class="metric" id="totalPacientes">0</div>
+                            <span class="variation" id="totalPacientesVar">Total Pacientes</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stats-card">
+                        <i class="fas fa-dog"></i>
+                        <div>
+                            <div class="metric" id="especiePopular">N/A</div>
+                            <span class="variation">Especie Más Común</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stats-card">
+                        <i class="fas fa-calendar"></i>
+                        <div>
+                            <div class="metric" id="promedioEdad">N/A</div>
+                            <span class="variation" id="promedioEdadVar">Edad Promedio</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filtros -->
+            <details class="mb-4">
+                <summary class="h5 text-primary"><i class="fas fa-filter me-2"></i>Filtros de visualización</summary>
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <label for="filterEspecie" class="form-label">Especies:</label>
+                        <select id="filterEspecie" class="form-select" multiple>
+                            <option value="">Todas</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="filterRaza" class="form-label">Razas:</label>
+                        <select id="filterRaza" class="form-select" multiple>
+                            <option value="">Todas</option>
+                        </select>
+                    </div>
+                </div>
+            </details>
+
+            <!-- Tabla de datos -->
+            <details class="mb-4">
+                <summary class="h5 text-primary"><i class="fas fa-table me-2"></i>Ver tabla de datos</summary>
+                <div class="mt-3 table-responsive">
+                    <table id="tablaDatos" class="table table-striped" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Especie</th>
+                                <th>Raza</th>
+                                <th>Fecha Nacimiento</th>
+                                <th>Edad</th>
+                                <th>ID Apoderado</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </details>
+
+            <div class="card">
+                <ul class="nav nav-tabs" id="chartTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="especie-raza-tab" data-bs-toggle="tab"
+                            data-bs-target="#especie-raza" type="button" role="tab">Especie y Raza</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="edad-radar-tab" data-bs-toggle="tab" data-bs-target="#edad-radar"
+                            type="button" role="tab">Edad y Radar</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="apoderado-tab" data-bs-toggle="tab"
+                            data-bs-target="#apoderado" type="button" role="tab">Apoderado</button>
+                    </li>
+                </ul>
+                <div class="tab-content" id="chartTabContent">
+                    <!-- Especie y Raza -->
+                    <div class="tab-pane fade show active" id="especie-raza" role="tabpanel">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <canvas id="pacientesPorEspecie"></canvas>
+                            </div>
+                            <div class="col-md-6">
+                                <canvas id="pacientesPorRaza"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Edad y Radar -->
+                    <div class="tab-pane fade" id="edad-radar" role="tabpanel">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <canvas id="pacientesPorEdad"></canvas>
+                            </div>
+                            <div class="col-md-6">
+                                <canvas id="graficoRadar"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Apoderado -->
+                    <div class="tab-pane fade" id="apoderado" role="tabpanel">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <canvas id="pacientesPorApoderado"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal de Registro -->
+            {% if is_admin %}
+            <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="registerModalLabel">Registrar Nuevo Usuario</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="POST" action="{{ url_for('dashboard') }}">
+                                <input type="hidden" name="action" value="register">
+                                <div class="input-group input-group-outline my-4">
+                                    <label class="form-label"></label>
+                                    <input type="text" class="form-control" name="username" placeholder="Usuario" required>
+                                </div>
+                                <div class="input-group input-group-outline my-4">
+                                    <label class="form-label"></label>
+                                    <input type="password" class="form-control" name="password" placeholder="Contraseña" required>
+                                </div>
+                                <div class="input-group input-group-outline my-4">
+                                    <label for="role" class="form-label"></label>
+                                    <select class="form-select" name="role" id="role" required>
+                                        <option value="user">Usuario</option>
+                                        <option value="admin">Administrador</option>
+                                    </select>
+                                </div>
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-success w-100">Registrarse</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <style>
+                /* Ensure input-group-outline has proper spacing and prevents overlap */
+                .input-group-outline {
+                    position: relative;
+                    margin-bottom: 1.5rem;
+                }
+
+                /* Style for labels to prevent overlap with inputs */
+                .input-group-outline .form-label {
+                    position: absolute;
+                    top: -0.5rem;
+                    left: 1rem;
+                    font-size: 0.9rem;
+                    color: #666;
+                    transition: all 0.2s ease;
+                    background: #fff;
+                    padding: 0 0.25rem;
+                    pointer-events: none;
+                }
+
+                /* Adjust label when input is focused or filled */
+                .input-group-outline input:focus + .form-label,
+                .input-group-outline input:not(:placeholder-shown) + .form-label {
+                    top: -1.2rem;
+                    font-size: 0.75rem;
+                    color: #333;
+                }
+
+                /* Ensure select element aligns with input styling */
+                .input-group-outline .form-select {
+                    padding: 0.75rem 1rem;
+                    font-size: 1rem;
+                    border-radius: 0.375rem;
+                    border: 1px solid #ced4da;
+                    width: 100%;
+                }
+
+                /* Adjust input padding for consistency */
+                .input-group-outline .form-control {
+                    padding: 0.75rem 1rem;
+                    font-size: 1rem;
+                    border-radius: 0.375rem;
+                }
+
+                /* Ensure modal content has enough padding */
+                .modal-body {
+                    padding: 2rem;
+                }
+
+                /* Responsive adjustments */
+                @media (max-width: 576px) {
+                    .modal-body {
+                        padding: 1.5rem;
+                    }
+                    .input-group-outline .form-label {
+                        font-size: 0.8rem;
+                    }
+                }
+            </style>
+            {% endif %}
+        </div>
+        <!-- Scripts -->
+        {% include 'layout/scripts.html' %}
+        <script src="{{ url_for('static', filename='js/dashboard.js') }}?v=3.0.0"></script>
+    </div>
+</body>
+{% include 'layout/footer_dashboard.html' %}
+
+</html>

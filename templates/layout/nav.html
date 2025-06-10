@@ -1,0 +1,28 @@
+<nav id="mainNavbar" class="navbar navbar-expand-lg navbar-dark bg-dark mb-4 shadow-sm">
+    <div class="container-fluid justify-content-between">
+        <h1 class="navbar-brand mb-0 h3"><i class="fas fa-paw me-2"></i>Dashboard de Clínica Veterinaria</h1>
+        <div class="d-flex align-items-center">
+            {% if request.path == url_for('dashboard') %}
+            <input type="text" id="searchTitle" class="form-control me-2" placeholder="Buscar paciente..." style="max-width: 200px;">
+            {% endif %}
+            <button id="toggleTheme" class="btn btn-outline-dark">Modo Oscuro 🌙</button>
+            {% if current_user.is_authenticated %}
+            <a href="{{ url_for('dashboard')}}" class="btn btn-outline-warning btn-sm ms-2">
+                <i class="fa-solid fa-tachograph-digital"></i>
+            </a>
+            {% if is_admin %}
+            <a href="{{ url_for('listpacientes')}}" class="btn btn-outline-success btn-sm ms-2">
+                <i class="fa-solid fa-list"></i>
+            </a>
+            {% endif %}
+            <a href="{{ url_for('logout') }}" class="btn btn-outline-danger btn-sm ms-2">
+                <i class="fas fa-power-off"></i>
+            </a>
+            {% else %}
+            <a href="{{ url_for('auth') }}" class="btn btn-outline-primary btn-sm ms-2">
+                <i class="fas fa-sign-in-alt"></i>
+            </a>
+            {% endif %}
+        </div>
+    </div>
+</nav>
