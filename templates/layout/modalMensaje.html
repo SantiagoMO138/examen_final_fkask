@@ -1,0 +1,45 @@
+<!-- Modal Enviar Mensaje -->
+<div class="modal fade" id="modalMensaje" tabindex="-1" aria-labelledby="modalMensajeLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="formMensaje">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="modalMensajeLabel">Contáctanos</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body row g-3">
+                    <div class="col-12">
+                        <label class="form-label">Nombre</label>
+                        <input type="text" name="nombre" id="mensajeNombre" class="form-control" required>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">Teléfono</label>
+                        <input type="tel" name="telefono" id="mensajeTelefono" class="form-control">
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">Correo electrónico</label>
+                        <input type="email" name="correo" id="mensajeCorreo" class="form-control" required>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">Razón del mensaje</label>
+                        <select name="razon" id="mensajeRazon" class="form-select" required>
+                            <option value="">Selecciona una opción</option>
+                            <option value="Sugerencia">Sugerencias</option>
+                            <option value="Quejas">Quejas</option>
+                            <option value="Negocios">Negocios</option>
+                            <option value="Otro">Otro</option>
+                        </select>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">Detalle del mensaje</label>
+                        <textarea name="detalle" id="mensajeDetalle" class="form-control" rows="4" required></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Enviar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

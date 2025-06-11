@@ -1392,6 +1392,20 @@ class DescripcionGeneralTratamientos(Base):
         else:
             print('Descripción de tratamiento no encontrada')
 
+class Mensaje(Base):
+    __tablename__ = 'mensaje'
+    
+    idmensaje = Column(Integer, primary_key=True, autoincrement=True)
+    nombre = Column(String(50), nullable=False)
+    telefono = Column(String(20))
+    correo = Column(String(30), nullable=False)
+    razon = Column(String(20), nullable=False)
+    detalle = Column(String(1000), nullable=False)
+
+    def _repr_(self):
+        return (f"<Mensaje(idmensaje={self.idmensaje}, nombre={self.nombre}, "
+                f"correo={self.correo}, razon={self.razon})>")
+
 from flask_login import UserMixin
 
 class Usuario(Base, UserMixin):

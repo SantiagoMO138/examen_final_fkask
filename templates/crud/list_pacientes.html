@@ -1,0 +1,135 @@
+{% include 'layout/header_dashboard.html' %}
+
+<body class="bg-body-primary">
+    {% include 'layout/nav.html' %}
+    
+    <div class="container-fluid bg-body-secondary">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title text-primary mb-4"><i class="fas fa-paw me-2"></i>Gestión de Pacientes</h2>
+                <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#modalAgregar">
+                    <i class="fas fa-plus"></i> Agregar Paciente
+                </button>
+                <!-- Tabla de datos -->
+                <details class="mb-4">
+                    <summary class="h5 text-primary"><i class="fas fa-table me-2"></i>Ver tabla de pacientes</summary>
+                    <div class="mt-3 table-responsive">
+                        <table id="tablaPacientes" class="table table-striped" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre</th>
+                                    <th>Especie</th>
+                                    <th>Raza</th>
+                                    <th>Fecha Nacimiento</th>
+                                    <th>Edad</th>
+                                    <th>ID Apoderado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </details>
+                <!-- Loader -->
+                <div id="loader" class="d-none text-center">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Cargando...</span>
+                    </div>
+                </div>
+                <!-- Toast Notification -->
+                <div id="toastNotificacion" class="toast position-fixed bottom-0 end-0 m-3" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-body d-flex align-items-center" id="toastMensaje"></div>
+                </div>
+                <!-- Modal Agregar -->
+                <div class="modal fade" id="modalAgregar" tabindex="-1" aria-labelledby="modalAgregarLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modalAgregarLabel">Agregar Paciente</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="formAgregar">
+                                    <div class="mb-3">
+                                        <label for="addNombre" class="form-label">Nombre</label>
+                                        <input type="text" id="addNombre" name="nombre" class="form-control" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="addEspecie" class="form-label">Especie</label>
+                                        <select id="addEspecie" name="especie" class="form-select" required></select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="addRaza" class="form-label">Raza</label>
+                                        <select id="addRaza" name="raza" class="form-select" required></select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="addFechaNacimiento" class="form-label">Fecha Nacimiento</label>
+                                        <input type="date" id="addFechaNacimiento" name="fecha_nacimiento" class="form-control">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="addEdad" class="form-label">Edad</label>
+                                        <input type="number" id="addEdad" name="edad" class="form-control" min="0" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="addApoderado" class="form-label">ID Apoderado</label>
+                                        <select id="addApoderado" name="apoderado" class="form-select" required></select>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Agregar</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal Editar -->
+                <div class="modal fade" id="modalEditar" tabindex="-1" aria-labelledby="modalEditarLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modalEditarLabel">Editar Paciente</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="formEditar">
+                                    <input type="hidden" id="editarId" name="id">
+                                    <div class="mb-3">
+                                        <label for="editarNombre" class="form-label">Nombre</label>
+                                        <input type="text" id="editarNombre" name="nombre" class="form-control" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="editarEspecie" class="form-label">Especie</label>
+                                        <select id="editarEspecie" name="especie" class="form-select" required></select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="editarRaza" class="form-label">Raza</label>
+                                        <select id="editarRaza" name="raza" class="form-select" required></select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="editarFechaNacimiento" class="form-label">Fecha Nacimiento</label>
+                                        <input type="date" id="editarFechaNacimiento" name="fecha_nacimiento" class="form-control">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="editarEdad" class="form-label">Edad</label>
+                                        <input type="number" id="editarEdad" name="edad" class="form-control" min="0" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="editarApoderado" class="form-label">ID Apoderado</label>
+                                        <select id="editarApoderado" name="apoderado" class="form-select" required></select>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Guardar</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% include 'layout/scripts.html' %}
+        <script src="{{ url_for('static', filename='js/crud_pacientes.js') }}"></script>
+    </div>
+
+    {% include 'layout/mensajes.html' %}
+</body>
+{% include 'layout/footer_dashboard.html' %}
+
+</html>
