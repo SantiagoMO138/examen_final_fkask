@@ -2,7 +2,7 @@
 body {
     font-family: 'Montserrat', sans-serif;
     background-color: #FFFFFF;
-    color: #6A5ACD;
+    color: #88daa6;
     margin: 0;
     padding: 0;
 }
@@ -13,12 +13,12 @@ html {
 
 .text-primary {
     --bs-text-opacity: 1;
-    color: #6a5acd !important;
+    color: #88daa6 !important;
 }
 
 /* Topbar (Navbar) */
 #mainNavbar {
-    background-color: #6A5ACD !important;
+    background-color: #88daa6 !important;
     padding: 1rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -35,7 +35,7 @@ html {
     margin-right: 0.5rem;
 }
 .footer{
-    background-color: #6A5ACD;
+    background-color: #88daa6;
 }
 #toggleTheme {
     border-color: #FFA500;
@@ -46,7 +46,7 @@ html {
 
 #toggleTheme:hover {
     background-color: #FFA500;
-    color: #6A5ACD;
+    color: #88daa6;
 }
 
 /* Search Field */
@@ -73,7 +73,7 @@ html {
 
 [data-bs-theme="dark"] .card {
     background-color: #2F2F4F;
-    color: #6A5ACD;
+    color: #88daa6;
 }
 
 [data-bs-theme="dark"] .table {
@@ -136,11 +136,11 @@ summary {
 
 .form-label {
     font-weight: 500;
-    color: #6A5ACD;
+    color: #88daa6;
 }
 
 [data-bs-theme="dark"] .form-label {
-    color: #6A5ACD;
+    color: #88daa6;
 }
 
 /* Select2 Styles */
@@ -257,7 +257,7 @@ summary {
 }
 
 .table thead th {
-    background-color: #6A5ACD;
+    background-color: #88daa6;
     color: #FFFFFF;
     font-weight: 500;
     padding: 1rem;
@@ -287,7 +287,7 @@ summary {
 }
 
 .nav-tabs .nav-link {
-    color: #6A5ACD;
+    color: #88daa6;
     font-weight: 500;
     border: none;
     padding: 0.75rem 1.5rem;
@@ -299,7 +299,7 @@ summary {
 }
 
 .nav-tabs .nav-link.active {
-    color: #6A5ACD;
+    color: #88daa6;
     background-color: transparent;
     border-bottom: 3px solid #FFA500;
 }
@@ -334,7 +334,7 @@ canvas {
 .stats-card .metric {
     font-weight: 600;
     font-size: 1.5rem;
-    color: #6A5ACD;
+    color: #88daa6;
 }
 
 .stats-card .variation {
