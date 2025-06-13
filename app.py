@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash, jso
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from sqlalchemy.orm import sessionmaker
 from models.base import engine
-from models.model import Usuario, Paciente
+from models.model import Usuario, Paciente, Mensaje
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
 
@@ -220,8 +220,11 @@ def shutdown_session(exception=None):
 @app.route('/add/mensaje', methods=['POST'])
 def crear_mensaje():
     with Session() as db_session:
-        data = request.json
         try:
+            # Forzar lectura como JSON, útil si hay errores de codificación en el cliente
+            data = request.get_json(force=True)
+
+            # Crear nuevo objeto Mensaje
             nuevo_mensaje = Mensaje(
                 nombre=data.get('nombre'),
                 telefono=data.get('telefono'),
@@ -229,12 +232,16 @@ def crear_mensaje():
                 razon=data.get('razon'),
                 detalle=data.get('detalle')
             )
+
             db_session.add(nuevo_mensaje)
             db_session.commit()
+
             return jsonify({"mensaje": "Mensaje agregado correctamente"}), 201
+
         except Exception as e:
             db_session.rollback()
-            return jsonify({"error": str(e)}), 400
+            print(f"[ERROR] al guardar mensaje: {e}")  # <-- para depuración
+            return jsonify({"error": "Error interno al guardar el mensaje"}), 400
 
 if __name__ == '__main__':
     app.run(debug=True)

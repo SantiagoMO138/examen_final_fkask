@@ -19,14 +19,14 @@
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <img src="https://images.unsplash.com/photo-1576201836106-db1758fd1c97?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" class="d-block w-100" alt="Equipo veterinario" style="height: 500px; object-fit: cover;">
+                    <img src="https://universidadeuropea.com/resources/media/images/medicina-veterinaria-1200x630.original.jpg" class="d-block w-100" alt="Equipo veterinario" style="height: 500px; object-fit: cover;">
                     <div class="carousel-caption d-none d-md-block">
                         <h3 class="text-white bg-dark bg-opacity-50 p-2 rounded">Nuestro Equipo Profesional</h3>
                         <p class="text-white bg-dark bg-opacity-50 p-2 rounded">Veterinarios dedicados al bienestar de tus animales.</p>
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <img src="https://images.unsplash.com/photo-1629059635647-a6b15e2e2314?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" class="d-block w-100" alt="Instalaciones modernas" style="height: 500px; object-fit: cover;">
+                    <img src="https://veterinariopozuelo.com/wp-content/uploads/2017/07/InstalacionesVeeterinarioPozuelo1.jpeg" class="d-block w-100" alt="Instalaciones modernas" style="height: 500px; object-fit: cover;">
                     <div class="carousel-caption d-none d-md-block">
                         <h3 class="text-white bg-dark bg-opacity-50 p-2 rounded">Instalaciones Modernas</h3>
                         <p class="text-white bg-dark bg-opacity-50 p-2 rounded">Equipos de última tecnología para diagnósticos precisos.</p>
@@ -119,6 +119,8 @@
     <!-- Scripts -->
     {% include 'layout/scripts.html' %}
     <script src="{{ url_for('static', filename='js/dashboard.js') }}?v=3.0.0"></script>
+    {% include 'layout/modalMensaje.html' %}
+    <script src="{{ url_for('static', filename='js/mensaje.js') }}"></script>
 </body>
 {% include 'layout/footer_dashboard.html' %}
 
