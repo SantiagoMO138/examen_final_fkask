@@ -1,43 +1,70 @@
-Esta página es un **dashboard web para gestión y visualización de datos de ventas de videojuegos** construido con Flask. Te hago un resumen breve de sus funcionalidades principales:
+Esta aplicación es un **Sistema de Gestión de Clínica Veterinaria** construido con Flask que maneja registros de pacientes, autenticación de usuarios y análisis de datos a través de un dashboard interactivo.
+
+## Estructura General de la Aplicación
+
+La aplicación sigue una arquitectura de tres capas con separación clara entre presentación, lógica de negocio y datos:
+
+### Backend (Flask)
+El archivo principal `app.py` contiene toda la lógica del servidor [1](#0-0) . La aplicación utiliza:
+
+- **Flask-Login** para manejo de sesiones [2](#0-1) 
+- **SQLAlchemy** para operaciones de base de datos [3](#0-2) 
+- **PostgreSQL** como base de datos principal hospedada en Render
+
+### Frontend
+La interfaz utiliza:
+- **Bootstrap 5** para diseño responsivo
+- **jQuery** para manipulación del DOM y peticiones AJAX
+- **Chart.js** para visualización de datos
+- **DataTables** para tablas interactivas
 
 ## Funcionalidades Principales
 
-### Autenticación y Roles
-La aplicación maneja dos tipos de usuarios con diferentes permisos [1](#0-0) :
-- **Administradores**: Acceso completo a CRUD y gestión de usuarios
+### 1. Sistema de Autenticación
+La aplicación maneja dos tipos de usuarios con diferentes permisos:
+
+- **Administradores**: Acceso completo a operaciones CRUD de pacientes [4](#0-3) 
 - **Usuarios regulares**: Solo visualización del dashboard
 
-### API Endpoints Principales
-El sistema expone varios endpoints REST [2](#0-1) :
+El proceso de autenticación verifica credenciales y establece sesiones [5](#0-4) .
 
-- `/api/video_games` - Obtiene todos los datos de videojuegos
-- `/api/filtros` - Datos filtrados por parámetros (plataforma, género, año, editor) [3](#0-2) 
-- `/api/opciones` - Opciones disponibles para filtros [4](#0-3) 
-- `/api/list_video_games` - Lista completa con IDs (solo admins) [5](#0-4) 
+### 2. Gestión de Pacientes (Solo Administradores)
+Los administradores pueden realizar operaciones CRUD completas:
 
-### Operaciones CRUD (Solo Administradores)
-Los administradores pueden gestionar videojuegos mediante endpoints protegidos:
-- `POST /add/video_games` - Crear videojuego [6](#0-5) 
-- `DELETE /del/video_games/<id>` - Eliminar videojuego [7](#0-6) 
-- `PUT /upd/video_games/<id>` - Actualizar videojuego [8](#0-7) 
+- **Crear pacientes** mediante `POST /add/pacientes` [6](#0-5) 
+- **Actualizar pacientes** con `PUT /upd/pacientes/<id>` [7](#0-6) 
+- **Eliminar pacientes** usando `DELETE /del/pacientes/<id>` [8](#0-7) 
 
-### Visualización de Datos
-El dashboard incluye múltiples tipos de gráficos organizados en pestañas [9](#0-8) :
-- Ventas por plataforma y región
-- Ventas por género y año
-- Gráficos radar y temporales
-- Top editores y títulos
+### 3. Dashboard Interactivo
+El dashboard carga datos mediante AJAX y proporciona:
 
-### Filtros Interactivos
-Sistema de filtros dinámicos para visualizar datos específicos [10](#0-9) :
-- Por plataforma, género, año y editor
-- Actualización en tiempo real de gráficos
+- **Visualizaciones**: 5 tipos de gráficos diferentes (barras, circular, línea, radar, barras horizontales) [9](#0-8) 
+- **Filtros dinámicos**: Por especie y raza usando Select2 [10](#0-9) 
+- **Estadísticas en tiempo real**: Tarjetas que muestran métricas calculadas [11](#0-10) 
 
-La página utiliza tecnologías como Flask, SQLAlchemy, Chart.js y DataTables para proporcionar una experiencia completa de análisis de datos de videojuegos.
+### 4. Sistema de Contacto
+La página principal incluye un formulario de contacto que permite a visitantes enviar mensajes [12](#0-11) . Los mensajes se procesan mediante JavaScript [13](#0-12) .
+
+## Flujo de Datos
+
+1. **Carga inicial**: El dashboard solicita datos de pacientes via `/api/pacientes` [14](#0-13) 
+2. **Procesamiento**: Los datos se almacenan en variables globales y se procesan para generar visualizaciones
+3. **Filtrado**: Los usuarios pueden filtrar datos dinámicamente, actualizando gráficos y tablas en tiempo real
+4. **CRUD**: Los administradores pueden modificar datos mediante formularios que envían peticiones AJAX [15](#0-14) 
+
+## Estructura de Archivos
+
+- `app.py`: Servidor Flask principal con todas las rutas
+- `templates/`: Plantillas HTML con Jinja2
+- `static/js/`: Lógica JavaScript del cliente
+- `static/css/`: Estilos personalizados y responsive design
+- `models/`: Modelos de datos SQLAlchemy
 
 ## Notes
 
-El sistema está diseñado con una arquitectura de tres capas (presentación, lógica de negocio, datos) y implementa control de acceso basado en roles. Los endpoints de la API están protegidos según el tipo de usuario, garantizando que solo los administradores puedan modificar datos.
+La aplicación está configurada para despliegue en la nube con variables de entorno para la clave secreta y puerto [16](#0-15) . El sistema implementa control de acceso basado en roles, asegurando que solo los administradores puedan modificar datos de pacientes, mientras que todos los usuarios autenticados pueden visualizar el dashboard analítico.
 
 Wiki pages you might want to explore:
-- [Overview (SantiagoMO138/dashboard_flask_video_games)](/wiki/SantiagoMO138/dashboard_flask_video_games#1)
+- [Overview (SantiagoMO138/examen_final_fkask)](/wiki/SantiagoMO138/examen_final_fkask#1)
+- [System Architecture (SantiagoMO138/examen_final_fkask)](/wiki/SantiagoMO138/examen_final_fkask#2)
+- [Dashboard & Analytics (SantiagoMO138/examen_final_fkask)](/wiki/SantiagoMO138/examen_final_fkask#3.3)
